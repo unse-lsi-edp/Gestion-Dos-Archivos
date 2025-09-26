@@ -84,20 +84,29 @@ public class GestorVehiculos {
 
     public void listado() {
         Vehiculo regVehiculo;
+        char tipoVehiculo;
         archivo.abrirParaLectura();
         while (!archivo.eof()) {
             regVehiculo = archivo.leerRegistro();
             if (regVehiculo.getEstado()) {
-                char tipoVehiculo = regVehiculo.getTipoVehiculo();
-                mostrarVehiculo(tipoVehiculo, regVehiculo.getNroOrden());
+                tipoVehiculo = regVehiculo.getTipoVehiculo();
+                mostrarVehiculoSegunTipo(tipoVehiculo, regVehiculo.getNroOrden());
             }
         }
         archivo.cerrarArchivo();
     }
+    
+    /**
+     * Devuelve al puntero (RandomAcessFile) a su posicion inicial, y luego
+     * en base al tipo de vehiculo previamente cargado, llama al metodo leer
+     * correspondiente.
+     * @param tipoVehiculo el caracter que representa al tipo
+     * @param nroOrden del registro a mostrar
+     */
+    void mostrarVehiculoSegunTipo(char tipoVehiculo, int nroOrden) {
 
-    void mostrarVehiculo(char tipoVehiculo, int nroOrden) {
-        archivo.buscarRegistro(nroOrden);
         Vehiculo temp;
+        archivo.buscarRegistro(nroOrden);
 
         switch (tipoVehiculo) {
             case 'A':
@@ -114,7 +123,6 @@ public class GestorVehiculos {
         }
 
         temp.mostrarRegistro();
-        archivo.buscarRegistro(nroOrden+2);
     }
 
     public void menu() {

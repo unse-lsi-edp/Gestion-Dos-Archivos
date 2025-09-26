@@ -10,6 +10,7 @@ public class Camioneta extends Vehiculo {
     private float volumenDeCarga; // Volumen maximo que se puede cargar
 
     private final int TAM_REG_CAMIONETA = 4 + 4;
+    private final int BYTE_DIFF = TAM_REG_BASE - TAM_REG_CAMIONETA;
 
     public Camioneta() {
         super();
@@ -29,6 +30,7 @@ public class Camioneta extends Vehiculo {
         try {
             raf.writeInt(cargaMaxima);
             raf.writeFloat(volumenDeCarga);
+            rellenar(raf, BYTE_DIFF);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -41,6 +43,7 @@ public class Camioneta extends Vehiculo {
         try {
             cargaMaxima = raf.readInt();
             volumenDeCarga = raf.readFloat();
+            leerRelleno(raf, BYTE_DIFF);
         } catch (IOException e) {
             e.printStackTrace();
         }

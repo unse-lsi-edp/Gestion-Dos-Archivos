@@ -42,7 +42,7 @@ public abstract class Registro implements Grabable {
     /**
      * Accede al valor del nroOrden
      *
-     * @return el valor del atributo nroOrden
+     * @param nroOrden
      */
     public void setNroOrden(int nroOrden) {
         this.nroOrden = nroOrden;

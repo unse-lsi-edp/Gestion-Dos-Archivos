@@ -10,7 +10,7 @@ public class Automotor extends Vehiculo {
     private char tipoTransimision; // "A" Automatico, "M" Manual
 
     private final int TAM_REG_AUTOMOTOR = 4 + 2;
-    private final int BYTE_DIFF = TAM_REG - TAM_REG_AUTOMOTOR;
+    private final int BYTE_DIFF = TAM_REG_BASE - TAM_REG_AUTOMOTOR;
 
     public Automotor() {
         super();

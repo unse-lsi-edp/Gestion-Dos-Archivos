@@ -204,7 +204,7 @@ public class Archivo<T extends Registro & Grabable> {
     }
 
     /**
-     * 
+     * Lee un registro que sea hijo del tipo definido en el archivo.
      * @param <U> debe extender de T
      * @param clazz el tipo de clase hija de T
      * @return una instancia hija de T, con sus datos cargados.

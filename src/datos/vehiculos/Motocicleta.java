@@ -13,7 +13,7 @@ public class Motocicleta extends Vehiculo {
     private int cilindrada;
 
     private final int TAM_REG_MOTO = 4;
-    private final int BYTE_DIFF = TAM_REG - TAM_REG_MOTO;
+    private final int BYTE_DIFF = TAM_REG_BASE - TAM_REG_MOTO;
     
     public Motocicleta() {
         super();

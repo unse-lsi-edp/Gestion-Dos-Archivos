@@ -18,18 +18,17 @@ public class Vehiculo extends Registro {
     protected String modelo;
     protected final int LEN_MODELO = 30;
 
-    protected final int TAM_ARCH = 100;
-
-    /*
-    Se ajusta el tamaño del bloque de registro sumando la diferencia en bytes entre
-    el tamaño de la clase base (Vehiculo) y el de la subclase más grande.
-    En este caso, Vehiculo ocupa 114 bytes, mientras que Camioneta (la subclase más grande)
-    ocupa 122 bytes. Como 122 - 114 = 8, se agregan 8 bytes al registro de Vehiculo
-    para asegurar que todos los registros tengan el mismo tamaño.
-     */
+    // Representa el tamaño real en bytes de un registro de vehículo, calculado
+    // como la suma de los tamaños de todos sus atributos individuales.
     private final int TAM_REG_VEHICULO = 4 + 4 + 2 + 2 + 12 + LEN_MARCA * 2 + LEN_MODELO * 2;
-    protected final int TAM_REG = TAM_REG_VEHICULO + 8;
-    private final int BYTE_DIFF = TAM_REG - TAM_REG_VEHICULO;
+
+    // Tamaño del registro base extendido a 200 bytes, de modo que haya espacio
+    // suficiente para los atributos adicionales en las clases hijas.
+    protected final int TAM_REG_BASE = super.TAM_REG + 195;
+
+    // Número de bytes de relleno entre el registro base y el tamaño real    
+    // del registro de vehículo. Útil para saltar estos bytes al leer/escribir.
+    private final int BYTE_DIFF = TAM_REG_BASE - (TAM_REG_VEHICULO + super.TAM_REG);
 
     public Vehiculo() {
         super();
@@ -64,12 +63,7 @@ public class Vehiculo extends Registro {
      */
     @Override
     public int tamRegistro() {
-        return super.tamRegistro() + TAM_REG;
-    }
-
-    @Override
-    public int tamArchivo() {
-        return super.tamArchivo();
+        return TAM_REG_BASE;
     }
 
     @Override
