@@ -132,6 +132,19 @@ public class Vehiculo extends Registro {
         cargarModelo();
     }
 
+    /**
+     * Carga un vehiculo suponiendo que es nuevo (Sin codigo de cliente, y en
+     * estado disponible.
+     */
+    public void cargarNuevoVehiculo() {
+        cargarCodigoVehiculo();
+        cargarFechaAdquisicion();
+        cargarMarca();
+        cargarModelo();
+        setCodigoCliente(0);
+        setEstadoVehiculo('D');
+    }
+
     public void cargarCodigoVehiculo() {
         int nuevoCodigo = 0;
         boolean esValido = false;

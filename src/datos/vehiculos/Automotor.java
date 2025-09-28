@@ -67,6 +67,13 @@ public class Automotor extends Vehiculo {
         cargarTipoTransmision();
     }
 
+    @Override
+    public void cargarNuevoVehiculo() {
+        super.cargarNuevoVehiculo();
+        cargarCantidadPuertas();
+        cargarTipoTransmision();
+    }
+
     public void cargarCantidadPuertas() {
         int cantPuertas = 0;
         boolean esValido = false;

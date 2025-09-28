@@ -14,7 +14,7 @@ public class Motocicleta extends Vehiculo {
 
     private final int TAM_REG_MOTO = 4;
     private final int BYTE_DIFF = TAM_REG_BASE - TAM_REG_MOTO;
-    
+
     public Motocicleta() {
         super();
         cilindrada = 0;
@@ -61,6 +61,12 @@ public class Motocicleta extends Vehiculo {
     @Override
     public void cargarDatos() {
         super.cargarDatos();
+        cargarCilindrada();
+    }
+
+    @Override
+    public void cargarNuevoVehiculo() {
+        super.cargarNuevoVehiculo();
         cargarCilindrada();
     }
 

@@ -66,6 +66,13 @@ public class Camioneta extends Vehiculo {
         cargarVolumenDeCarga();
     }
 
+    @Override
+    public void cargarNuevoVehiculo() {
+        super.cargarNuevoVehiculo();
+        cargarCapacidadMaxima();
+        cargarVolumenDeCarga();
+    }
+
     public void cargarCapacidadMaxima() {
         int nuevaCargaMax = 0;
         boolean esValido = false;

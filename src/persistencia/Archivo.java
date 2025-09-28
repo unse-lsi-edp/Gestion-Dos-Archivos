@@ -82,7 +82,7 @@ public class Archivo<T extends Registro & Grabable> {
             for (int i = 0; i < reg.tamArchivo(); i++) {
                 reg.setNroOrden(i);
                 reg.setEstado(false);
-                buscarRegistro(i);
+                posicionarRAF(i);
                 grabarRegistro(reg);
             }
         } catch (Exception e) {
@@ -135,7 +135,7 @@ public class Archivo<T extends Registro & Grabable> {
      *
      * @param i número relativo del registro que se quiere acceder
      */
-    public void buscarRegistro(long i) {
+    public void posicionarRAF(long i) {
         try {
             raf.seek(i * tipo.tamRegistro());
         } catch (IOException e) {
@@ -180,7 +180,7 @@ public class Archivo<T extends Registro & Grabable> {
 
         if (r != null && tipo.getClass().isInstance(r)) {
             try {
-                buscarRegistro(r.getNroOrden());
+                posicionarRAF(r.getNroOrden());
                 r.grabar(raf);
             } catch (Exception e) {
                 e.printStackTrace();

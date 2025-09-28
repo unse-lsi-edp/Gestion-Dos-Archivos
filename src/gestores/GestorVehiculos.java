@@ -30,12 +30,12 @@ public class GestorVehiculos {
 
     void opciones() {
         System.out.println("---Menu Vehiculos---");
-        System.out.println("1. Alta");
-        System.out.println("2. Listado");
+        System.out.println("1. Registrar un nuevo vehiculo");
+        System.out.println("2. Listadar todos los vehiculos");
         System.out.println("0. Salir");
     }
 
-    void alta() {
+    void registrarNuevoVehiculo() {
         archivo.abrirParaLeerEscribir();
         do {
             Vehiculo nuevoRegVehiculo = crearRegVehiculo();
@@ -46,6 +46,11 @@ public class GestorVehiculos {
         archivo.cerrarArchivo();
     }
 
+    /**
+     * Carga de datos de manera polimorfica.
+     *
+     * @return Una instancia de Vehiculo segun su subtipo.
+     */
     Vehiculo crearRegVehiculo() {
 
         boolean esValido = false;
@@ -78,51 +83,76 @@ public class GestorVehiculos {
             esValido = opcion == 1 || opcion == 2 || opcion == 3;
         }
 
-        v.cargarDatos();
+        v.cargarNuevoVehiculo();
         return v;
     }
 
     public void listado() {
         Vehiculo regVehiculo;
         char tipoVehiculo;
+        int nroOrden;
         archivo.abrirParaLectura();
         while (!archivo.eof()) {
             regVehiculo = archivo.leerRegistro();
             if (regVehiculo.getEstado()) {
                 tipoVehiculo = regVehiculo.getTipoVehiculo();
-                mostrarVehiculoSegunTipo(tipoVehiculo, regVehiculo.getNroOrden());
+                nroOrden = regVehiculo.getNroOrden();
+                regVehiculo = determinarTipo(tipoVehiculo, nroOrden);
+                regVehiculo.mostrarRegistro();
             }
         }
         archivo.cerrarArchivo();
     }
-    
-    /**
-     * Devuelve al puntero (RandomAcessFile) a su posicion inicial, y luego
-     * en base al tipo de vehiculo previamente cargado, llama al metodo leer
-     * correspondiente.
-     * @param tipoVehiculo el caracter que representa al tipo
-     * @param nroOrden del registro a mostrar
-     */
-    void mostrarVehiculoSegunTipo(char tipoVehiculo, int nroOrden) {
 
+    /**
+     * Lista todos los vehiculos cuyo estado sea 'D'
+     */
+    public void listarDisponibles() {
+        Vehiculo regVehiculo;
+        char tipoVehiculo;
+        int nroOrden;
+        char estadoVehiculo;
+        archivo.abrirParaLectura();
+        while (!archivo.eof()) {
+            regVehiculo = archivo.leerRegistro();
+            if (regVehiculo.getEstado()) {
+                estadoVehiculo = regVehiculo.getEstadoVehiculo();
+                if (estadoVehiculo == 'D') {
+                    tipoVehiculo = regVehiculo.getTipoVehiculo();
+                    nroOrden = regVehiculo.getNroOrden();
+                    regVehiculo = determinarTipo(tipoVehiculo, nroOrden);
+                    regVehiculo.mostrarRegistro();
+                }
+            }
+        }
+        archivo.cerrarArchivo();
+    }
+
+    /**
+     * Determina de que tipo es un registro del archivo
+     *
+     * @param tipoVehiculo caracter que representa el tipo de vehiculo.
+     * @param nroOrden nro de orden para revobinar el archivo.
+     * @return
+     */
+    Vehiculo determinarTipo(char tipoVehiculo, int nroOrden) {
         Vehiculo temp;
-        archivo.buscarRegistro(nroOrden);
+        archivo.posicionarRAF(nroOrden);
 
         switch (tipoVehiculo) {
             case 'A':
-                temp = archivo.leerRegistroHijo(Automotor.class);
+                temp = (Automotor) archivo.leerRegistroHijo(Automotor.class);
                 break;
             case 'M':
-                temp = archivo.leerRegistroHijo(Motocicleta.class);
+                temp = (Motocicleta) archivo.leerRegistroHijo(Motocicleta.class);
                 break;
             case 'C':
-                temp = archivo.leerRegistroHijo(Camioneta.class);
+                temp = (Camioneta) archivo.leerRegistroHijo(Camioneta.class);
                 break;
             default:
                 temp = archivo.leerRegistroHijo(Vehiculo.class);
         }
-
-        temp.mostrarRegistro();
+        return temp;
     }
 
     public void menu() {
@@ -133,7 +163,7 @@ public class GestorVehiculos {
             op = GestorEntradaConsola.leerEntero();
             switch (op) {
                 case 1:
-                    alta();
+                    registrarNuevoVehiculo();
                     break;
                 case 2:
                     listado();
@@ -142,8 +172,12 @@ public class GestorVehiculos {
         } while (op != 0);
     }
 
-    public static void main(String[] args) {
-        GestorVehiculos app = new GestorVehiculos();
-        app.menu();
+    public Archivo<Vehiculo> getArchivo() {
+        return archivo;
     }
+
+    public void setArchivo(Archivo<Vehiculo> archivo) {
+        this.archivo = archivo;
+    }
+
 }
